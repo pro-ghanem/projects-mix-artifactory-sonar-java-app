@@ -1,0 +1,19 @@
+version: '3.2'
+services:
+  jenkins:
+    image: jenkinsci/jenkins
+    volumes:
+      - ./jenkins:/var/jenkins_home:rw
+    ports:
+      - 8080:8080
+    container_name: jenkins
+  
+  tomcat:
+    image: tomcat
+    ports:
+      - 7777:8080
+    container_name: tomcat
+    depends_on:
+      - jenkins
+    volumes:
+      - ./jenkins/workspace/test-app/target/:/usr/local/tomcat/webapps
